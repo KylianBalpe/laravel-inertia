@@ -8,11 +8,11 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::where('role', 'user')->get();
-        return Inertia::render('Users/Index', [
-            'users' => $users,
-        ]);
-    }
+  public function index()
+  {
+    $users = User::where('role', 'user')->get();
+    return Inertia::render('Users/Index', [
+      'users' => $users,
+    ]);
+  }
 }
