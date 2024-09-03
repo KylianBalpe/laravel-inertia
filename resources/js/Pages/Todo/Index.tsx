@@ -50,8 +50,8 @@ export default function Index({ auth, todos }: PageProps<{ todos: Todo[] }>) {
       <div className="py-4">
         {flash.success && visible && (
           <div className="mx-auto mb-4 flex max-w-7xl flex-col space-y-4 sm:px-6 lg:px-8">
-            <div className="bg-green-600 p-4 shadow-sm sm:rounded-lg">
-              <div className="font-medium text-white">{flash.success}</div>
+            <div className="border border-green-700 bg-green-50 p-4 shadow-sm sm:rounded-lg">
+              <div className="font-medium text-green-700">{flash.success}</div>
             </div>
           </div>
         )}
@@ -65,12 +65,20 @@ export default function Index({ auth, todos }: PageProps<{ todos: Todo[] }>) {
               >
                 <div className="inline-flex w-full items-center justify-between">
                   <h4 className="font-medium text-gray-900">{todo.content}</h4>
-                  <DangerButton
-                    onClick={() => deleteTodo(todo.id)}
-                    disabled={processing}
-                  >
-                    Delete
-                  </DangerButton>
+                  <div className="inline-flex gap-2">
+                    <Link
+                      href={route("todo.edit", todo.id)}
+                      className="inline-flex h-9 items-center rounded-md bg-neutral-900 px-3 text-sm font-medium text-white transition-colors duration-150 ease-in-out hover:bg-neutral-800"
+                    >
+                      Edit
+                    </Link>
+                    <DangerButton
+                      onClick={() => deleteTodo(todo.id)}
+                      disabled={processing}
+                    >
+                      Delete
+                    </DangerButton>
+                  </div>
                 </div>
               </div>
             ))

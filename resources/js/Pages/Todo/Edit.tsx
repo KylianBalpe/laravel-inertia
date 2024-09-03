@@ -7,15 +7,15 @@ import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 
-export default function Create({ auth }: PageProps) {
-  const { data, setData, post, processing, errors, reset } = useForm({
-    content: "",
+export default function Create({ auth, todo }: PageProps<{ todo: Todo }>) {
+  const { data, setData, put, processing, errors, reset } = useForm({
+    content: todo.content || "",
   });
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route("todo.store"), {
+    put(route("todo.update", todo.id), {
       onFinish: () => reset("content"),
     });
   };
@@ -25,7 +25,7 @@ export default function Create({ auth }: PageProps) {
       header={
         <div className="flex flex-row items-center justify-between">
           <h2 className="text-xl font-semibold leading-tight text-gray-800">
-            Create Todo
+            Edit Todo
           </h2>
         </div>
       }

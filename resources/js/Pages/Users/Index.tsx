@@ -14,7 +14,7 @@ export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
     >
       <Head title="Users" />
 
-      <div className="py-12">
+      <div className="py-4">
         <div className="mx-auto flex max-w-7xl flex-col space-y-2 sm:px-6 lg:px-8">
           <div className="flex flex-row items-center justify-between bg-white p-4 shadow-sm sm:rounded-lg">
             <div className="text-gray-900">

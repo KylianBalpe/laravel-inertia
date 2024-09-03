@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTodoRequest;
+use App\Http\Requests\UpdateTodoRequest;
 use App\Models\Todo;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\RedirectResponse;
@@ -34,6 +35,33 @@ class TodoController extends Controller
   public function create(): Response
   {
     return Inertia::render('Todo/Create');
+  }
+
+  public function edit($id): Response
+  {
+    $todo = Todo::find($id);
+
+    if (!$todo) {
+      return Redirect::route('todo.index')->with('error', 'Todo not found.');
+    }
+
+    return Inertia::render('Todo/Edit', [
+      'todo' => $todo
+    ]);
+  }
+
+  public function update(UpdateTodoRequest $request, $id)
+  {
+    $todo = Todo::find($id);
+
+    if (!$todo) {
+      return Redirect::route('todo.index')->with('error', 'Todo not found.');
+    }
+
+    $data = $request->validated();
+    $todo->update($data);
+
+    return Redirect::route('todo.index')->with('success', 'Todo updated.');
   }
 
   public function delete($id)
