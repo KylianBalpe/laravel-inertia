@@ -1,17 +1,30 @@
 import DangerButton from "@/Components/DangerButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { PageProps, Todo } from "@/types";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function Index({ auth, todos }: PageProps<{ todos: Todo[] }>) {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const { flash } = usePage<PageProps>().props;
 
-  console.log(flash);
+  function deleteTodo(id: number) {
+    setProcessing(true);
+
+    router.delete(route("todo.delete", id), {
+      onFinish: () => setProcessing(false),
+    });
+  }
 
   useEffect(() => {
     setVisible(true);
+
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, [flash]);
 
   return (
@@ -52,8 +65,12 @@ export default function Index({ auth, todos }: PageProps<{ todos: Todo[] }>) {
               >
                 <div className="inline-flex w-full items-center justify-between">
                   <h4 className="font-medium text-gray-900">{todo.content}</h4>
-
-                  <DangerButton>Delete</DangerButton>
+                  <DangerButton
+                    onClick={() => deleteTodo(todo.id)}
+                    disabled={processing}
+                  >
+                    Delete
+                  </DangerButton>
                 </div>
               </div>
             ))

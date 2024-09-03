@@ -35,4 +35,12 @@ class TodoController extends Controller
   {
     return Inertia::render('Todo/Create');
   }
+
+  public function delete($id)
+  {
+    $todo = Todo::find($id);
+    $todo->delete();
+
+    return Redirect::route('todo.index')->with('success', 'Todo deleted.');
+  }
 }
